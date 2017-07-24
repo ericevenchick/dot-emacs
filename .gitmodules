@@ -1,0 +1,3 @@
+[submodule "contrib/use-package"]
+	path = contrib/use-package
+	url = https://github.com/jwiegley/use-package

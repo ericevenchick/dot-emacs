@@ -1,0 +1,236 @@
+* General Settings
+  
+  Inhibit the startup screen:
+  #+BEGIN_SRC emacs-lisp
+    (setq inhibit-startup-message t)
+  #+END_SRC
+  
+  Put backup and autosave files in temporary directory:
+  #+BEGIN_SRC emacs-lisp
+    (setq backup-directory-alist
+	  `((".*" . ,temporary-file-directory)))
+    (setq auto-save-file-name-transforms
+	  `((".*" ,temporary-file-directory t)))
+  #+END_SRC
+  
+  Start server so we can open files in this instance:
+  #+BEGIN_SRC emacs-lisp
+    (server-start)
+  #+END_SRC
+  
+  Display line numbers in the gutter:
+  #+BEGIN_SRC emacs-lisp
+    (setq line-number-mode t)
+  #+END_SRC
+  
+  Display line numbers in the gutter:
+  #+BEGIN_SRC emacs-lisp
+    (setq global-visual-line-mode t)
+  #+END_SRC
+  
+  Type y or n, not yes or no:
+  #+BEGIN_SRC emacs-lisp
+    (fset 'yes-or-no-p 'y-or-n-p)
+  #+END_SRC
+  
+  Put all our custom variables into a different file, to keep init.el clean:
+  #+BEGIN_SRC emacs-lisp
+    (setq custom-file (concat user-emacs-directory "/custom.el"))
+  #+END_SRC
+  
+** Window Settings
+
+Hide toolbar, scrollbar, menubar:
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+#+END_SRC
+
+** ido-mode
+
+Enable IDO mode:
+#+BEGIN_SRC emacs-lisp
+(ido-mode t)
+#+END_SRC
+
+Use fuzzy matching:
+#+BEGIN_SRC emacs-lisp
+(setq ido-enable-flex-matching t)
+#+END_SRC
+
+* Packages
+  
+  Set up package repositories:
+  #+BEGIN_SRC emacs-lisp
+    (setq package-archives ())
+    (add-to-list 'package-archives
+		 '("marmalade" . "http://marmalade-repo.org/packages/") t)
+    (add-to-list 'package-archives
+		 '("melpa" . "http://melpa.milkbox.net/packages/") t)
+    (add-to-list 'package-archives
+		 '("org" . "http://orgmode.org/elpa/") t)
+  #+END_SRC
+    
+  Initialize the package manager:
+  #+BEGIN_SRC emacs-lisp
+    (package-initialize)
+  #+END_SRC
+  
+  We use use-package for package management. It's checked out from Git when this repository is cloned, and is loaded here. The use-package.el script depends on bind-key.el:
+  #+BEGIN_SRC emacs-lisp
+    (load-file (concat user-emacs-directory "contrib/use-package/bind-key.el"))
+    (load-file (concat user-emacs-directory "contrib/use-package/use-package.el"))
+  #+END_SRC
+  
+** smex
+
+Smex is a M-x enhancement for Emacs.
+
+#+BEGIN_SRC emacs-lisp
+(use-package smex
+  :ensure t
+  :config
+  (smex-initialize)
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  )
+#+END_SRC
+
+** evil-mode
+
+Evil is an extensible vi layer for Emacs.
+
+#+BEGIN_SRC emacs-lisp
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode 1)
+
+  ;; custom key bindings for evil-mode
+
+  ;; L goes to end of line, H goes to beginning of line
+  (define-key evil-normal-state-map (kbd "L") 'evil-end-of-line)
+  (define-key evil-normal-state-map (kbd "H") 'evil-beginning-of-line)
+
+  )
+#+END_SRC
+
+** powerline
+
+Emacs version of the Vim powerline.
+
+#+BEGIN_SRC emacs-lisp
+(use-package powerline
+  :ensure t
+  )
+#+END_SRC
+** spaceline
+
+Powerline theme from Spacemacs.
+
+#+BEGIN_SRC emacs-lisp
+(use-package spaceline
+  :ensure t
+  :config
+  (require 'spaceline-config)
+
+  ;; set the mode line height
+  (setq powerline-height 20)
+
+  ;; highlight the first segment of the mode line based on evil state
+  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+
+;; use the spacemacs theme
+  (spaceline-spacemacs-theme)
+  )
+#+END_SRC
+** markdown-mode
+#+BEGIN_SRC emacs-lisp
+(use-package markdown-mode
+  :ensure t
+  )
+#+END_SRC
+** zenburn-theme
+#+BEGIN_SRC emacs-lisp
+(use-package zenburn-theme
+  :ensure t
+  )
+(load-theme 'zenburn t)
+#+END_SRC
+** org-mode
+   Install org from the repository:
+   #+BEGIN_SRC emacs-lisp
+   (use-package org
+            :ensure org-plus-contrib)
+   #+END_SRC
+   
+   
+   Set where we keep org files:
+   #+BEGIN_SRC emacs-lisp
+     (setq org-directory "~/Dropbox/org")
+   #+END_SRC
+   
+   Define files that should be used to generate the org agenda:
+   
+   #+BEGIN_SRC emacs-lisp
+     (setq org-agenda-files (quote ("~/Dropbox/org/todo.org")))
+   #+END_SRC
+   
+   Set global keybindings for org:
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key (kbd "C-c c") 'org-capture)
+     (global-set-key (kbd "C-c a") 'org-agenda)
+   #+END_SRC
+   
+   States that a TODO items can be in:
+   #+BEGIN_SRC emacs-lisp
+     (setq org-todo-keywords '((sequence "TODO" "WAITING" "STARTED" "|" "DONE" "CANCELLED")))
+     (setq org-todo-keyword-faces
+	   '(("TODO" org-warning) ("WAITING" . "yellow") ("STARTED" . "#aaaaff") ("CANCELLED" . "grey")))
+   #+END_SRC
+   
+   Make source in org code blocks act like in the major mode for that language, for both highlighting and indentation:
+   #+BEGIN_SRC emacs-lisp
+     (setq org-src-fontify-natively t)
+     (setq org-src-tab-acts-natively t)
+   #+END_SRC
+   
+*** Agenda
+    
+    Custom agenda commands:
+    #+BEGIN_SRC emacs-lisp
+      (setq org-agenda-custom-commands
+	  `(
+	      ;; list all TODOs that are not SCHEDULED
+	      ("u" "[u]nscheduled" tags "-SCHEDULED={.+}/+TODO")
+	      ;; list all TODOs that are WAITING
+	      ("w" "[w]aiting" tags "/+WAITING")))
+    #+END_SRC
+    
+    Only warn one week in advance:
+    #+BEGIN_SRC emacs-lisp
+    (setq org-deadline-warning-days 7)
+    #+END_SRC
+
+*** Modules
+    
+    Set up org modules:
+    #+BEGIN_SRC emacs-lisp
+      (require 'org-habit)
+      (add-to-list 'org-modules 'org-habit)
+    #+END_SRC
+    
+    Configure org-habit:
+    #+BEGIN_SRC emacs-lisp
+      (setq org-habit-graph-column 50)
+      (setq org-habit-show-habits-only-for-today nil)
+      (setq org-habit-show-all-today t)
+    #+END_SRC
+    
+** magit
+#+BEGIN_SRC emacs-lisp
+(use-package magit
+  :ensure t
+  )
+#+END_SRC
