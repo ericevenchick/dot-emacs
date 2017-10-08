@@ -223,9 +223,11 @@
     Custom agenda commands:
     #+BEGIN_SRC emacs-lisp
       (setq org-agenda-custom-commands
-	  `(
+	    `(
 	      ;; list all TODOs that are not SCHEDULED
 	      ("u" "[u]nscheduled" tags "-SCHEDULED={.+}/+TODO")
+	      ;; list all TODOs that are not SCHEDULED or DEADLINE
+	      ("n" "[n]o date" tags "-SCHEDULED={.+}-DEADLINE={.+}/+TODO")
 	      ;; list all TODOs that are WAITING
 	      ("w" "[w]aiting" tags "/+WAITING")))
     #+END_SRC
