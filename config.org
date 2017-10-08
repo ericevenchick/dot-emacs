@@ -204,9 +204,13 @@
    
    Automatically export iCalendar file when todo.org is saved
    #+BEGIN_SRC emacs-lisp
+     (setq org-icalendar-use-scheduled '(event-if-todo event-if-not-todo))
+     (setq org-icalendar-use-deadline '(event-if-todo))
      (defun my-org-after-save-hook ()
        "Actions run after save of org file"
+       ;; only run when saved manually
        (when (memq this-command '(save-buffer save-some-buffers))
+	 ;; only operate on 'todo.org' file
 	 (when (string= (file-name-nondirectory (buffer-file-name)) "todo.org")
 	   (org-icalendar-export-to-ics nil)
 	   (message "saved iCal file")
