@@ -40,24 +40,24 @@
   
 ** Window Settings
 
-Hide toolbar, scrollbar, menubar:
-#+BEGIN_SRC emacs-lisp
+   Hide toolbar, scrollbar, menubar:
+   #+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
-#+END_SRC
+   #+END_SRC
 
 ** ido-mode
 
-Enable IDO mode:
-#+BEGIN_SRC emacs-lisp
+   Enable IDO mode:
+   #+BEGIN_SRC emacs-lisp
 (ido-mode t)
-#+END_SRC
+   #+END_SRC
 
-Use fuzzy matching:
-#+BEGIN_SRC emacs-lisp
+   Use fuzzy matching:
+   #+BEGIN_SRC emacs-lisp
 (setq ido-enable-flex-matching t)
-#+END_SRC
+   #+END_SRC
 
 * Packages
   
@@ -85,9 +85,9 @@ Use fuzzy matching:
   
 ** smex
 
-Smex is a M-x enhancement for Emacs.
+   Smex is a M-x enhancement for Emacs.
 
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package smex
   :ensure t
   :config
@@ -95,13 +95,13 @@ Smex is a M-x enhancement for Emacs.
   (global-set-key (kbd "M-x") 'smex)
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
   )
-#+END_SRC
+   #+END_SRC
 
 ** evil-mode
 
-Evil is an extensible vi layer for Emacs.
+   Evil is an extensible vi layer for Emacs.
 
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package evil
   :ensure t
   :config
@@ -114,22 +114,22 @@ Evil is an extensible vi layer for Emacs.
   (define-key evil-normal-state-map (kbd "H") 'evil-beginning-of-line)
 
   )
-#+END_SRC
+   #+END_SRC
 
 ** powerline
 
-Emacs version of the Vim powerline.
+   Emacs version of the Vim powerline.
 
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package powerline
   :ensure t
   )
-#+END_SRC
+   #+END_SRC
 ** spaceline
 
-Powerline theme from Spacemacs.
+   Powerline theme from Spacemacs.
 
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package spaceline
   :ensure t
   :config
@@ -144,25 +144,25 @@ Powerline theme from Spacemacs.
 ;; use the spacemacs theme
   (spaceline-spacemacs-theme)
   )
-#+END_SRC
+   #+END_SRC
 ** markdown-mode
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
   :ensure t
   )
-#+END_SRC
+   #+END_SRC
 ** zenburn-theme
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package zenburn-theme
   :ensure t
   )
 (load-theme 'zenburn t)
-#+END_SRC
+   #+END_SRC
 ** org-mode
    Install org from the repository:
    #+BEGIN_SRC emacs-lisp
    (use-package org
-            :ensure org-plus-contrib)
+	    :ensure org-plus-contrib)
    #+END_SRC
    
    
@@ -196,6 +196,24 @@ Powerline theme from Spacemacs.
      (setq org-src-tab-acts-natively t)
    #+END_SRC
    
+   Set target files for refile
+   #+BEGIN_SRC emacs-lisp
+     (setq org-refile-targets
+	   '(("todo.org" :maxlevel . 1)))
+   #+END_SRC
+   
+   Automatically export iCalendar file when todo.org is saved
+   #+BEGIN_SRC emacs-lisp
+     (defun my-org-after-save-hook ()
+       "Actions run after save of org file"
+       (when (memq this-command '(save-buffer save-some-buffers))
+	 (when (string= (file-name-nondirectory (buffer-file-name)) "todo.org")
+	   (org-icalendar-export-to-ics nil)
+	   (message "saved iCal file")
+	   )))
+     (add-hook 'after-save-hook 'my-org-after-save-hook)
+   #+END_SRC
+   
 *** Agenda
     
     Custom agenda commands:
@@ -224,16 +242,16 @@ Powerline theme from Spacemacs.
     Configure org-habit:
     #+BEGIN_SRC emacs-lisp
       (setq org-habit-graph-column 50)
-      (setq org-habit-show-habits-only-for-today nil)
+      (setq org-habit-show-habits-only-for-today t)
       (setq org-habit-show-all-today t)
     #+END_SRC
     
 ** magit
 
-Magit is an interface to the version control system Git, implemented as an Emacs package.
+   Magit is an interface to the version control system Git, implemented as an Emacs package.
 
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package magit
   :ensure t
   )
-#+END_SRC
+   #+END_SRC
