@@ -42,21 +42,21 @@
 
    Hide toolbar, scrollbar, menubar:
    #+BEGIN_SRC emacs-lisp
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
+     (tool-bar-mode -1)
+     (scroll-bar-mode -1)
+     (menu-bar-mode -1)
    #+END_SRC
 
 ** ido-mode
 
    Enable IDO mode:
    #+BEGIN_SRC emacs-lisp
-(ido-mode t)
+     (ido-mode t)
    #+END_SRC
 
    Use fuzzy matching:
    #+BEGIN_SRC emacs-lisp
-(setq ido-enable-flex-matching t)
+     (setq ido-enable-flex-matching t)
    #+END_SRC
 
 * Packages
@@ -83,37 +83,23 @@
     (load-file (concat user-emacs-directory "contrib/use-package/use-package.el"))
   #+END_SRC
   
-** smex
-
-   Smex is a M-x enhancement for Emacs.
-
-   #+BEGIN_SRC emacs-lisp
-(use-package smex
-  :ensure t
-  :config
-  (smex-initialize)
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-  )
-   #+END_SRC
-
 ** evil-mode
 
    Evil is an extensible vi layer for Emacs.
 
    #+BEGIN_SRC emacs-lisp
-(use-package evil
-  :ensure t
-  :config
-  (evil-mode 1)
+     (use-package evil
+       :ensure t
+       :config
+       (evil-mode 1)
 
-  ;; custom key bindings for evil-mode
+       ;; custom key bindings for evil-mode
 
-  ;; L goes to end of line, H goes to beginning of line
-  (define-key evil-normal-state-map (kbd "L") 'evil-end-of-line)
-  (define-key evil-normal-state-map (kbd "H") 'evil-beginning-of-line)
+       ;; L goes to end of line, H goes to beginning of line
+       (define-key evil-normal-state-map (kbd "L") 'evil-end-of-line)
+       (define-key evil-normal-state-map (kbd "H") 'evil-beginning-of-line)
 
-  )
+       )
    #+END_SRC
 
 ** powerline
@@ -121,48 +107,48 @@
    Emacs version of the Vim powerline.
 
    #+BEGIN_SRC emacs-lisp
-(use-package powerline
-  :ensure t
-  )
+     (use-package powerline
+       :ensure t
+       )
    #+END_SRC
 ** spaceline
 
    Powerline theme from Spacemacs.
 
    #+BEGIN_SRC emacs-lisp
-(use-package spaceline
-  :ensure t
-  :config
-  (require 'spaceline-config)
+     (use-package spaceline
+       :ensure t
+       :config
+       (require 'spaceline-config)
 
-  ;; set the mode line height
-  (setq powerline-height 20)
+       ;; set the mode line height
+       (setq powerline-height 20)
 
-  ;; highlight the first segment of the mode line based on evil state
-  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+       ;; highlight the first segment of the mode line based on evil state
+       (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 
-;; use the spacemacs theme
-  (spaceline-spacemacs-theme)
-  )
+       ;; use the spacemacs theme
+       (spaceline-spacemacs-theme)
+       )
    #+END_SRC
 ** markdown-mode
    #+BEGIN_SRC emacs-lisp
-(use-package markdown-mode
-  :ensure t
-  )
+     (use-package markdown-mode
+       :ensure t
+       )
    #+END_SRC
 ** zenburn-theme
    #+BEGIN_SRC emacs-lisp
-(use-package zenburn-theme
-  :ensure t
-  )
-(load-theme 'zenburn t)
+     (use-package zenburn-theme
+       :ensure t
+       )
+     (load-theme 'zenburn t)
    #+END_SRC
 ** org-mode
    Install org from the repository:
    #+BEGIN_SRC emacs-lisp
-   (use-package org
-	    :ensure org-plus-contrib)
+     (use-package org
+       :ensure org-plus-contrib)
    #+END_SRC
    
    
@@ -208,11 +194,11 @@
      (setq org-icalendar-use-deadline '(event-if-todo))
      (defun my-org-after-save-hook ()
        "Actions run after save of org file"
-	 ;; only operate on 'todo.org' file
-	 (when (string= (file-name-nondirectory (buffer-file-name)) "todo.org")
-	   (org-icalendar-export-to-ics nil)
-	   (message "saved iCal file")
-	   ))
+       ;; only operate on 'todo.org' file
+       (when (string= (file-name-nondirectory (buffer-file-name)) "todo.org")
+	 (org-icalendar-export-to-ics nil)
+	 (message "saved iCal file")
+	 ))
      (add-hook 'after-save-hook 'my-org-after-save-hook)
    #+END_SRC
    
@@ -232,7 +218,7 @@
     
     Only warn one week in advance:
     #+BEGIN_SRC emacs-lisp
-    (setq org-deadline-warning-days 7)
+      (setq org-deadline-warning-days 7)
     #+END_SRC
 
 *** Modules
@@ -255,7 +241,19 @@
    Magit is an interface to the version control system Git, implemented as an Emacs package.
 
    #+BEGIN_SRC emacs-lisp
-(use-package magit
-  :ensure t
-  )
+     (use-package magit
+       :ensure t
+       )
+   #+END_SRC
+** helm
+   #+BEGIN_SRC emacs-lisp
+     (use-package magit
+       :ensure t
+       )
+   #+END_SRC
+
+   Use Helm by default:
+
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key (kbd "M-x") 'helm-M-x)
    #+END_SRC
