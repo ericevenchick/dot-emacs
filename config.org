@@ -116,7 +116,7 @@
   )
    #+END_SRC
 
-** powerline
+** poerline
 
    Emacs version of the Vim powerline.
 
@@ -130,20 +130,20 @@
    Powerline theme from Spacemacs.
 
    #+BEGIN_SRC emacs-lisp
-(use-package spaceline
-  :ensure t
-  :config
-  (require 'spaceline-config)
+     (use-package spaceline
+       :ensure t
+       :config
+       (require 'spaceline-config)
 
-  ;; set the mode line height
-  (setq powerline-height 20)
+       ;; set the mode line height
+       (setq powerline-height 20)
 
-  ;; highlight the first segment of the mode line based on evil state
-  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+       ;; highlight the first segment of the mode line based on evil state
+       (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 
-;; use the spacemacs theme
-  (spaceline-spacemacs-theme)
-  )
+       ;; use the spacemacs theme
+       (spaceline-spacemacs-theme)
+       )
    #+END_SRC
 ** markdown-mode
    #+BEGIN_SRC emacs-lisp
@@ -151,12 +151,13 @@
   :ensure t
   )
    #+END_SRC
-** zenburn-theme
+** color-theme-sanityinc-tomorrow
    #+BEGIN_SRC emacs-lisp
-(use-package zenburn-theme
-  :ensure t
-  )
-(load-theme 'zenburn t)
+     (use-package color-theme-sanityinc-tomorrow
+       :ensure t
+       :config
+       (color-theme-sanityinc-tomorrow-night)
+       )
    #+END_SRC
 ** org-mode
    Install org from the repository:
@@ -164,7 +165,6 @@
    (use-package org
 	    :ensure org-plus-contrib)
    #+END_SRC
-   
    
    Set where we keep org files:
    #+BEGIN_SRC emacs-lisp
@@ -204,8 +204,8 @@
    
    Automatically export iCalendar file when todo.org is saved
    #+BEGIN_SRC emacs-lisp
-     (setq org-icalendar-use-scheduled '(event-if-todo event-if-not-todo))
-     (setq org-icalendar-use-deadline '(event-if-todo))
+     (setq org-icalendar-use-scheduled nil)
+     (setq org-icalendar-use-deadline nil)
      (defun my-org-after-save-hook ()
        "Actions run after save of org file"
        ;; only run when saved manually
